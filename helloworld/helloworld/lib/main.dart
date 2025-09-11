@@ -1,7 +1,139 @@
 import 'package:flutter/material.dart';
 
+//Named 생성자.. 기존의 생성자외에 객체를 다양한 형태로 발생시킬수 있도록 정의 하는 형태를 말함..
+
+class Idol{
+  final String name;
+  final int memberCount;
+  Idol(this.name,this.memberCount);
+
+  //네임드 생성자를 정의해서 이 생성자를 이용한 Idol을 생성하도록 해봅니다.
+  Idol.forMap(Map<String,dynamic> map)
+  : this.name = map['name'],
+    this.memberCount=map['memberCount'];
+
+
+  void sayName(){
+    print('나는 ${this.name} 입니다 ${this.name} 멤버는 ${this.memberCount} 명 입니다.' );
+  }
+}
+
+class MenuItem{
+  String name;
+  int price;
+
+  MenuItem(this.name , this.price);
+}
+
+class Cafe{
+  late List<MenuItem> menu;
+
+  Cafe(){
+    menu = [
+      MenuItem('어메리카노', 10),
+      MenuItem('콜드브루', 15),
+    ];
+  }
+
+  //메뉴를 보여주는 메서드 정의
+  void dpMenu(){
+    //리스트를 순회해서  아아: 2000원
+    for(MenuItem m in menu){
+      print('${m.name}:${m.price}원')
+;    }
+  }
+  
+}
+
+class User {
+  String name;
+  int age;
+  User({required this.name,required this.age});
+}
+
+
 void main() {
-  runApp(const MyApp());
+  //Dart 언어 ... 자바의 언어와 매우 유사하다 
+  //데이터 타입(객체는 당연하고 , P type 은 bool , int, double 만 존재한다)
+  Cafe().dpMenu();
+  var my = User(name:'덕호',age:32);
+  var aespa = Idol('에스파', 4);
+  var bts = Idol.forMap({'name':'BTS','memberCount':7});
+  bts.sayName();
+  aespa.sayName();
+  int a = 1;
+  double d = 1.0;
+  bool flag = false;
+
+  print(a);
+
+ // d = a as double;
+
+  String name = 'tiger';
+
+  print('${name.toString()}'); // $를 이용해서 변수의 값을 출력 시킬수 있다
+
+  String str = '''이건 문자열을
+  그대로 출력시키는 키워드 입니다
+  이거,문자열''';
+  print('$str');
+
+  //Collection : List(Array), Set,Map 그대로 사용한다
+  //List 는 배열식으로 표현되고, 나머지는 동일하다.
+  //각각의 객체는 내부 Iterator 메서드와 set,getter 등이 있음...자바의 차이점은 메뉴얼을 확인 바란다
+
+  //type 선언중에 dynamic 이란애는 말그대로 값이 타입에 맞도록 변경되도록 허용되는 애다
+  List<dynamic> nums = [1, 2.0 ,'3'];
+
+  //var 라는 키워드를 이용해서 변수 선언가능하다 이것은 추론타입이라고 해서, 값이 들어가는 시점에 타입을 지정해준다
+  //반대로 int 로 선언해버리면, int 만 들어갈 수 있다
+  var k = 10;
+
+  dynamic j = 10;
+
+  j = 'str';
+
+  //nums에서 2를 제거한 list의 내용을 출력해보기
+  nums.remove(2);
+  print(nums);
+
+  //생성자중에 Named 생성자가 있다
+  //기본적으로 생성자는 클래스명과 같은 구조를 따라야 하는데, named 는 여기에 객체 생성을 좀더 다양하게 생성하게 만들어주는 문법이다
+  //이름은 static 과 비슷한 형태로 구성되어 있으며 ..EX> Class.namedConstructor(props);
+
+  List<dynamic> list2=List.from(nums);
+  List<dynamic> list3=nums.toList();
+  print(list2);
+  print(list3);
+
+  //좋아하는 과일 4개를 가진 favf 라는 리스트 생성하기
+  List<dynamic> favf = ['키위','사과','배','수박'];
+
+  for(dynamic d in favf){
+    print(d);
+  };
+
+  favf.forEach((element) => print(element));
+  favf.forEach((value){
+    print(value);
+  });
+
+  Map<String , int> ml = {'a':1,'b':2};
+  print(ml['a']);
+
+  //시작점 ..진입점 ..app은 여기서 시작됨
+  //runApp(const MyApp());
+}
+
+class YourApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(title: '야스',
+    color: Colors.amber,
+    //home: SafeArea(child: Text(style: TextStyle(),)),
+    );
+  }
+
 }
 
 class MyApp extends StatelessWidget {
@@ -28,9 +160,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 226, 3, 155)),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Hello World'),
     );
   }
 }
