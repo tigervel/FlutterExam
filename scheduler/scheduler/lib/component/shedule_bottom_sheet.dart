@@ -3,10 +3,13 @@
 //safearea 하위에 컨테이너를 구성하도록 만들어 보세요..컬러는 white 로 구성해보세요.
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scheduler/component/custom_text_field.dart';
 import 'package:scheduler/const/colors.dart';
 import 'package:get_it/get_it.dart';
 import 'package:scheduler/database/drift_database.dart';
+import 'package:scheduler/model/schedule_model.dart';
+import 'package:scheduler/provider/schedule_provider.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   final DateTime selectedDate;
@@ -80,7 +83,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: onSavePressed,
+                    onPressed: ()=>onSavePressed(context),
                     child: Text('저장'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: PRIMARY_COLOR,
@@ -95,19 +98,27 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     );
   }
 
-  void onSavePressed() async {
+  void onSavePressed(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      //GetIt sl = GetIt.instance();
-      await GetIt.I<LocalDataBase>().createSchedule(
-        SchedulesCompanion(
-          start: Value(startTime ?? 0),
-          end: Value(endTime ?? 0),
-          content: Value(content ?? ''),
-          date: Value(widget.selectedDate),
-        ),
+      context.read<ScheduleProvider>().createSchedule(
+        schedule: ScheduleModel(
+          id: 'new model', 
+          content: content!, 
+          date: widget.selectedDate, 
+          startTime: startTime!, 
+          endTime: endTime!)
       );
+      //GetIt sl = GetIt.instance();
+      // await GetIt.I<LocalDataBase>().createSchedule(
+      //   SchedulesCompanion(
+      //     start: Value(startTime ?? 0),
+      //     end: Value(endTime ?? 0),
+      //     content: Value(content ?? ''),
+      //     date: Value(widget.selectedDate),
+      //   ),
+      // );
       Navigator.of(context).pop();
       // print(startTime);
       // print(endTime);
