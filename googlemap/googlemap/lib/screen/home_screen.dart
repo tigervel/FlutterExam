@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
+  
   //구글맵을 이용하면 위경도 위치를 담당하는 객체가 있다 그 객체는 LatLng 이다
   //이 객체를 이용해서 초기 맵의 위치값을 지정하도록 할 예정
 
@@ -34,6 +34,7 @@ class HomeScreen extends StatelessWidget {
   );
   Future<String> checkPermission() async {
     final isLocationEnabled = await Geolocator.isLocationServiceEnabled();
+    
 
     if (!isLocationEnabled) return '위치 서비스를 활성화 해주 세요';
 
